@@ -1,14 +1,17 @@
 #!/bin/sh
 
-if [ "$DATABASE" = "postgres" ]
+if [ "$DATABASE" = "mysql" ]
 then
-    echo "Waiting for postgres..."
+    echo "Waiting 15s for mysql to start..."
 
-    while ! nc -z $SQL_HOST $SQL_PORT; do
-      sleep 0.1
-    done
+    sleep 15 # using while loop with nc (netcat) and mysqladmin fails as packages are not found
+    
+    # while ! nc -z $SQL_HOST $SQL_PORT; do
+    # while ! mysqladmin ping -h"$SQL_HOST" --silent; do
+      # sleep .5
+    # done
 
-    echo "PostgreSQL started"
+    echo "assuming MySQL has started"
 fi
 
 exec "$@"
